@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <canvas id="genreChart" width="400" height="400"></canvas>
+  <canvas id="statusChart" width="400" height="400"></canvas>
+
+  <script>
+    fetch('/api/charts')
+      .then(response => response.json())
+      .then(data => {
+        // Data for genre distribution chart
+        const genreData = data.genres.map(item => item.count);
+        const genreLabels = data.genres.map(item => item.genre);
+
+        // Data for availability status pie chart
+        const statusData = data.statusCounts.map(item => item.count);
+        const statusLabels = data.statusCounts.map(item => item.availability);
+
+        // Render genre distribution chart
+        const genreCtx = document.getElementById('genreChart').getContext('2d');
+        new Chart(genreCtx, {
+          type: 'bar',
+          data: {
+            labels: genreLabels,
+            datasets: [{
+              label: 'Book Count',
+              data: genreData,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // Render availability status pie chart
+        const statusCtx = document.getElementById('statusChart').getContext('2d');
+        new Chart(statusCtx, {
+          type: 'pie',
+          data: {
+            labels: statusLabels,
+            datasets: [{
+              data: statusData,
+              backgroundColor: ['green', 'red']
+            }]
+          }
+        });
+      })
+      .catch(error => console.error(error));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ReadON</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon_io/android-chrome-512x512.png" rel="icon">
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/adminstyle.css" rel="stylesheet">
+  <!-- Include Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+      .green-button {
+    background-color: darkgreen;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .green-button:hover {
+    background-color: forestgreen;
+  }
+
+  </style>
+</head>
+
+<body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-between">
+  
+        <div class="logo">
+  <a href="index.html"><img src="assets/img/Logo/ReadON Transparent nav.png" alt="" class="img-fluid"></a>
+        </div>
+  
+        <nav id="navbar" class="navbar">
+          <ul>
+  
+  <li><a href="/admin" class="active">Home</a></li>
+            <li><a class="getstarted" href="/">Log Out</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+  
+      </div>
+    </header><!-- End Header -->
+  <!-- Other content in your admin.html file -->
+  <br>
+  <br>
+  <br>
+  <br>
+<!-- Button to generate the chart -->
+<button id="generateChartButton" class="green-button" style="margin-top: 70px; background-color:  darkgreen; color: white; padding: 10px 20px; border: none; cursor: pointer;">Generate Inventory Availability Chart</button>
+
+<!-- Canvas for the chart -->
+<div style="width: 80%; margin: 0 auto; height: 300px;">
+  <canvas id="inventoryChart"></canvas>
+</div>
+
+<!-- Button to show the Pie Chart -->
+<button id="showPieChartButton" class="green-button" style="background-color: darkgreen; color: white; padding: 10px 20px; border: none; cursor: pointer;">Show Inventory Status Pie Chart</button>
+
+
+    <!-- Canvas for the Pie Chart -->
+    <div style="width: 80%; margin: 0 auto;">
+      <canvas id="inventoryStatusPieChart"></canvas>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+     <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6 footer-info">
+            <img src="assets/img/Logo/ReadON Transparent.png" alt="" style="width: 150px;">
+            <p>ReadON is a bookstore that offers a wide variety of books at competitive prices with fast and reliable shipping and excellent customer service.We hope you will give us the opportunity to serve you. Thank you for choosing ReadON!</p>
+          </div>
+
+
+          <div class="col-lg-6 col-md-6 footer-contact">
+            <h4>Contact Us</h4>
+            <p>NH 66, Srinivasnagar<br>
+              Surathkal, Mangalore<br>
+              Karnataka 575025<br>
+              <strong>Phone:</strong>  +91 9035448322<br>
+              <strong>Email:</strong>  ridhishahede29@gmail.com<br>
+            </p>
+
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+
+          </div>
+
+          
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>ReadON</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+
+  <script>
+    document.getElementById('generateChartButton').addEventListener('click', function() {
+      fetch('/api/books/inventory-by-genre')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data); // Log the received data for debugging
+
+          const genres = data.map(entry => entry.genre);
+          const counts = data.map(entry => entry.count);
+
+          // Create a bar chart
+          const ctx = document.getElementById('inventoryChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: genres,
+              datasets: [{
+                label: 'Available Books by Genre',
+                data: counts,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        })
+        .catch(error => console.error('Error:', error)); // Log any fetch-related errors
+    });
+
+    document.getElementById('showPieChartButton').addEventListener('click', function() {
+  fetch('/api/books/status-pie-chart')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data); // Log the received data for debugging
+
+      const statuses = data.map(entry => entry.availability);
+      const counts = data.map(entry => entry.count);
+
+      // Create a Pie Chart
+      const ctx = document.getElementById('inventoryStatusPieChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: statuses,
+          datasets: [{
+            data: counts,
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'], // Red and Blue colors
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: true,
+            labels: {
+              generateLabels: function(chart) {
+                return chart.data.labels.map(function(label, index) {
+                  const value = chart.data.datasets[0].data[index];
+                  return {
+                    text: label + ': ' + value,
+                    fillStyle: chart.data.datasets[0].backgroundColor[index],
+                    strokeStyle: chart.data.datasets[0].borderColor[index],
+                    lineWidth: 2,
+                    hidden: isNaN(value), // hide labels with NaN value
+                    index: index
+                  };
+                });
+              }
+            }
+          }
+        }
+      });
+    })
+    .catch(error => console.error('Error:', error)); // Log any fetch-related errors
+});
+
+
+  </script>
+
+
+</body>
+
+</html>

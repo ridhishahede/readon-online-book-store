@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>Css Flip Book</title>
+<link rel="stylesheet" href="/styles/styleLogin.css">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userId = document.querySelector('input[name="userid"]').value;
+
+            // Check user ID length and redirect accordingly
+            if (/^\d{5}$/.test(userId)) {
+                window.location.href = '/user';
+            } else if (/^\d{4}$/.test(userId)) {
+                window.location.href = '/admin';
+            } else {
+                alert('Invalid User ID');
+            }
+        });
+    });
+</script>
+
+</head>
+<body>
+	<img class="demo-bg" src="assets/pexels-pixabay-256559.jpg" alt="">
+<div class="book">
+<input type="checkbox" id="c1">
+<input type="checkbox" id="c2">
+<input type="checkbox" id="c3">
+<div id="cover"><img src="assets/Final.png"></div>
+<div class="flip-book">
+<div class="flip" id="p1">
+<div class="back">
+<img src="assets/Final.png">
+<label class="back-btn" for="c1" style="color: yellow;">Sign Up</label>
+</div>
+<div class="front">
+	<form action="action_page.php" >
+		<div class="container">
+		  <h1>Log In</h1>
+	  
+		  <label for="email"><b>User ID</b></label>
+		  <input type="text" placeholder="Enter User ID" name="userid" required>
+	  
+		  <label for="psw"><b>Password</b></label>
+		  <input type="password" placeholder="Enter Password" name="psw" required>
+	  
+		  <div class="clearfix">
+			<button type="submit" class="signupbtn">Log IN</button>
+
+		  </div>
+		</div>
+	  </form>
+
+
+
+
+<div class="flip" id="p3">
+<div class="back">
+<img src="assets/Final.png">
+<label class="back-btn" for="c3" style="color: yellow;">Sign Up</label>
+</div>
+<div class="front">
+	<form action="action_page.php" >
+		<div class="container">
+		  <h1>Sign Up</h1>
+	  
+		  <label for="email"><b>Name</b></label>
+		  <input type="text" placeholder="Enter name" name="name" required>
+
+		  <label for="email"><b>User ID</b></label>
+		  <input type="text" placeholder="Enter User ID" name="userid" required>
+	  
+		  <label for="psw"><b>Password</b></label>
+		  <input type="password" placeholder="Enter Password" name="psw" required>
+	  
+		  <div class="clearfix">
+			<button type="submit" class="signupbtn">Sign Up</button>
+			<label class="back-btn" for="c3" style="color: rgb(0, 0, 0); font-size: 14px; margin-top: 5px;"> All ready have an account. <strong>Log In</strong></label>
+		  </div>
+		</div>
+	  </form>
+
+	</div>
+</div>
+</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form'); // Get all forms on the page
+
+        forms.forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const userId = this.querySelector('input[name="userid"]').value;
+
+                // Check user ID length and redirect accordingly
+                if (/^\d{5}$/.test(userId)) {
+                    window.location.href = '/user';
+                } else if (/^\d{4}$/.test(userId)) {
+                    window.location.href = '/admin';
+                } else {
+                    alert('Invalid User ID');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
