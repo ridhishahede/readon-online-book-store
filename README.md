@@ -1,7 +1,7 @@
 
-# Laptop-Game-Multi-Step-Subscription-form
+# Readon - Online Bookstore and inventory management application
 
-This is a Online BOokStore and Inventory Managemnet website
+This is a Online BookStore and Inventory Managemnet website
 Full Stack Web development for TagHash Publications Internship recruitment
 
 
